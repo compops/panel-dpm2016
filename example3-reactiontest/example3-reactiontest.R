@@ -9,8 +9,8 @@ plotColors = brewer.pal(8, "Dark2");
 
 source("samplers-mixedeffects-sleepmodel.R")
 
-nIter         <- 1000
-nBurnIn       <- 250
+nIter         <- 10000
+nBurnIn       <- 2500
 
 
 ###############################################################################
@@ -49,7 +49,7 @@ resLMvars  <- apply(resLM,2,var)
 # Define priors
 ###############################################################################
 a0star <- c(resLMmeans[1], resLMmeans[2], rep(0, 2*nMaxClusters))
-A0star <- diag( c(0.04, 0.04, 0.04*rep(1, nAttributes*nMaxClusters ) ) )
+A0star <- diag( c(0.01, 0.005, 0.02*rep(1, nAttributes*nMaxClusters ) ) )
 
 # Wishart prior on inverse covariance
 c0Q    <- 10
@@ -57,8 +57,8 @@ C0Q    <- 0.05 * diag(2)
 #C0Q    <- 0.5 * diag(2)
 ( c0Q - (2+1)/2 )^(-1) * C0Q # mode of variance matrix
 
-c0e    <- 0
-C0e    <- 0
+c0e    <- 1
+C0e    <- 2
 
 a0     <- 0.1
 nu     <- 5
@@ -88,34 +88,46 @@ outDPM       <- gibbs_dpm(d$y, d$x, d$x, nIter, nMaxClusters, prior, postGrid)
 # Plotting
 ###############################################################################
 
+cairo_pdf("~/projects/dpm-panel2015/paper/dpm-panel2015-draft1/figures/example3-reactiontest.pdf", width=8, height=8)
+
 layout(matrix(c(1,2,3,4), 2, 2, byrow = TRUE))  
 par(mar=c(4,5,1,1)) 
 
-plot(density(outFiniteSparse$alpha[nBurnIn:nIter,1]),lwd=3, col=plotColors[1], type="l", bty="n", ylab="density", xlab=expression(alpha[0]), main="" )
-lines(density(outDPM$alpha[nBurnIn:nIter,1]),lwd=3, col=plotColors[2])
+alpha0FM  <- density(outFiniteSparse$alpha[nBurnIn:nIter,1],from=220,to=260)
+alpha1FM  <- density(outFiniteSparse$alpha[nBurnIn:nIter,2],from=-30,to=20)
+alpha0DPM <- density(outDPM$alpha[nBurnIn:nIter,1],from=220,to=260)
+alpha1DPM <- density(outDPM$alpha[nBurnIn:nIter,2],from=-30,to=20)
 
-plot(density(outFiniteSparse$alpha[nBurnIn:nIter,2]),lwd=3, col=plotColors[1], type="l", bty="n", ylab="density", xlab=expression(alpha[1]), main="" )
-lines(density(outDPM$alpha[nBurnIn:nIter,2]),lwd=3, col=plotColors[2])
+beta0FM  <- density(outFiniteSparse$betaInd[nBurnIn:nIter,,1],from=-20,to=30)
+beta1FM  <- density(outFiniteSparse$betaInd[nBurnIn:nIter,,2],from=-10,to=40)
+beta0DPM <- density(outDPM$betaInd[nBurnIn:nIter,,1],from=-20,to=30)
+beta1DPM <- density(outDPM$betaInd[nBurnIn:nIter,,2],from=-10,to=40)
 
-plot(density(outFiniteSparse$betaInd[nBurnIn:nIter,,1]),lwd=3, col=plotColors[1], type="l", bty="n", ylab="density", xlab=expression(beta[0]), main="" )
-lines(density(outDPM$betaInd[nBurnIn:nIter,1]),lwd=3, col=plotColors[2])
-plot(density(outFiniteSparse$betaInd[nBurnIn:nIter,,2]),lwd=3, col=plotColors[1], type="l", bty="n", ylab="density", xlab=expression(beta[1]), main="" )
-lines(density(outDPM$betaInd[nBurnIn:nIter,2]),lwd=3, col=plotColors[2])
+# Alpha_0
+plot(alpha0FM$x,alpha0FM$y,lwd=1, col=plotColors[1], type="l", bty="n", ylab="density", xlab=expression(alpha[0]), main="", xlim=c(220,260), ylim=c(0,0.2) )
+polygon( c(alpha0FM$x,rev(alpha0FM$x)), c(alpha0FM$y, rep(0,length(alpha0FM$x))),border=NA,col=rgb(t(col2rgb(plotColors[1]))/256,alpha=0.25))
+lines(alpha0DPM$x,alpha0DPM$y,lwd=1, col=plotColors[2])
+polygon( c(alpha0DPM$x,rev(alpha0DPM$x)), c(alpha0DPM$y, rep(0,length(alpha0DPM$x))),border=NA,col=rgb(t(col2rgb(plotColors[2]))/256,alpha=0.25))
 
+# Alpha_1
+plot(alpha1FM$x,alpha1FM$y,lwd=1, col=plotColors[1], type="l", bty="n", ylab="density", xlab=expression(alpha[1]), main="", xlim=c(-30,20), ylim=c(0,0.2) )
+polygon( c(alpha1FM$x,rev(alpha1FM$x)), c(alpha1FM$y, rep(0,length(alpha1FM$x))),border=NA,col=rgb(t(col2rgb(plotColors[1]))/256,alpha=0.25))
+lines(alpha1DPM$x,alpha1DPM$y,lwd=1, col=plotColors[2])
+polygon( c(alpha1DPM$x,rev(alpha1DPM$x)), c(alpha1DPM$y, rep(0,length(alpha1DPM$x))),border=NA,col=rgb(t(col2rgb(plotColors[2]))/256,alpha=0.25))
 
+# Beta_0
+plot(beta0FM$x,beta0FM$y,lwd=1, col=plotColors[1], type="l", bty="n", ylab="density", xlab=expression(beta[0]), main="", xlim=c(-20,30), ylim=c(0,0.1) )
+polygon( c(beta0FM$x,rev(beta0FM$x)), c(beta0FM$y, rep(0,length(beta0FM$x))),border=NA,col=rgb(t(col2rgb(plotColors[1]))/256,alpha=0.25))
+lines(beta0DPM$x,beta0DPM$y,lwd=1, col=plotColors[2])
+polygon( c(beta0DPM$x,rev(beta0DPM$x)), c(beta0DPM$y, rep(0,length(beta0DPM$x))),border=NA,col=rgb(t(col2rgb(plotColors[2]))/256,alpha=0.25))
 
-# lines(postGrid, colMeans(outDPM$posterior_beta[nBurnIn:nIter,]), lwd=3, col=plotColors[3])
-# legend("topleft",c("Sparseness prior","DP prior"),col=plotColors[2:3],lwd=2,box.col=NA)
-# rug(resLM[,2])
-# 
-# hist(outFiniteSparse$alpha[nBurnIn:nIter],main="",breaks=floor(sqrt(nIter)),freq=FALSE,xlab=expression(alpha),col=rgb(t(col2rgb(plotColors[5]))/256,alpha=0.25),border=NA, ylab="density",xlim=c(250,253))
-# rug(resLM[,1])
-# lines(density(outFiniteSparse$alpha[nBurnIn:nIter]),lwd=3,col=plotColors[5])
-# hist(outFiniteSparse$nOccupiedClusters[nBurnIn:nIter],breaks=floor(sqrt(nIter)),main="",freq=FALSE,xlab="no. occupied clusters",col="darkgrey",border=NA,xlim=c(0,nMaxClusters), ylab="density")
-# 
-# hist(outDPM$alpha[nBurnIn:nIter],main="",breaks=floor(sqrt(nIter)),freq=FALSE,xlab=expression(alpha),col=rgb(t(col2rgb(plotColors[6]))/256,alpha=0.25),border=NA, ylab="density",xlim=c(250,253))
-# rug(resLM[,1])
-# lines(density(outDPM$alpha[nBurnIn:nIter]),lwd=3,col=plotColors[6])
-# hist(outDPM$alphaSB[nBurnIn:nIter],main="",breaks=floor(sqrt(nIter)),freq=FALSE,xlab=expression(eta[0]),col=rgb(t(col2rgb(plotColors[7]))/256,alpha=0.25),border=NA, ylab="density",xlim=c(0,30))
-# lines(density(outDPM$alphaSB[nBurnIn:nIter]),lwd=3,col=plotColors[7])
-# hist(outDPM$nOccupiedClusters[nBurnIn:nIter],breaks=floor(sqrt(nIter)),main="",freq=FALSE,xlab="no. occupied clusters",col="darkgrey",border=NA,xlim=c(0,nMaxClusters), ylab="density")
+# Beta_1
+plot(beta1FM$x,beta1FM$y,lwd=1, col=plotColors[1], type="l", bty="n", ylab="density", xlab=expression(beta[1]), main="", xlim=c(-10,40), ylim=c(0,0.1) )
+polygon( c(beta1FM$x,rev(beta1FM$x)), c(beta1FM$y, rep(0,length(beta1FM$x))),border=NA,col=rgb(t(col2rgb(plotColors[1]))/256,alpha=0.25))
+lines(beta1DPM$x,beta1DPM$y,lwd=1, col=plotColors[2])
+polygon( c(beta1DPM$x,rev(beta1DPM$x)), c(beta1DPM$y, rep(0,length(beta1DPM$x))),border=NA,col=rgb(t(col2rgb(plotColors[2]))/256,alpha=0.25))
+
+dev.off()
+
+colMeans(outFiniteSparse$alpha[nBurnIn:nIter,]) + colMeans(colMeans(outFiniteSparse$betaInd[nBurnIn:nIter,,]))
+colMeans(outDPM$alpha[nBurnIn:nIter,]) + colMeans(colMeans(outDPM$betaInd[nBurnIn:nIter,,]))

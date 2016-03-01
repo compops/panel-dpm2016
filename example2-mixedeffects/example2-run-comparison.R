@@ -11,10 +11,10 @@ source("samplers-mixedeffects-1dim.R")
 
 nAttributes   <- 1
 nMaxClusters  <- 20
-nIndividuals  <- 250
+nIndividuals  <- 20
 nObservations <- 20
-nIter         <- 10000
-nBurnIn       <- 2500
+nIter         <- 1000
+nBurnIn       <- 250
 postGrid      <- seq(-4,4,0.1)
 
 ###############################################################################

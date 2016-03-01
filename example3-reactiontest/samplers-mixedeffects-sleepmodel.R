@@ -36,7 +36,7 @@ gibbs_finitemixture <- function(y, xf, xr, nIter, nMaxClusters, prior, postGrid)
   
   nIndividuals  <- dim(y)[1]
   nObservations <- dim(y)[2]
-  nAttributes   <- 2
+  nAttributes   <- dim(xr)[1]
   
   ###############################################################################
   # Define priors
@@ -286,7 +286,7 @@ gibbs_dpm <- function(y, xf, xr, nIter, nMaxClusters, prior, postGrid)  {
   
   nIndividuals  <- dim(y)[1]
   nObservations <- dim(y)[2]
-  nAttributes   <- 2
+  nAttributes   <- dim(xr)[1]
   
   ###############################################################################
   # Define priors
