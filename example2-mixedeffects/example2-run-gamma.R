@@ -1,4 +1,13 @@
-setwd("~/20160227-dpm-panel2015/example2-mixedeffects")
+###############################################################################
+# Script for replicating example 2 in 
+# "Bayesian inference for mixed effects models with heterogeneity"
+#
+# Script to run simulation study
+#
+# (c) Johan Dahlin 2016 ( johan.dahlin (at) liu.se )
+###############################################################################
+
+#setwd("~/20160227-dpm-panel2015/example2-mixedeffects")
 source("samplers-mixedeffects-1dim.R")
 library("mvtnorm")
 
@@ -67,11 +76,10 @@ for ( ii in 1:length(nIndividualsVector) ) {
   c0e    <- 0
   C0e    <- 0
   
-  a0     <- 0.1
   nu     <- 5
   
   prior = list( a0star=a0star, A0star=A0star, c0Q = c0Q, C0Q = C0Q,
-                c0e=c0e, C0e=C0e, a0=a0, nu=nu)
+                c0e=c0e, C0e=C0e, nu=nu)
   
   
   ###############################################################################
@@ -108,3 +116,7 @@ for ( ii in 1:length(nIndividualsVector) ) {
   save(c(outFiniteKnown,outFiniteSparse,outDPM),file=paste(paste("results/results-mixedeffects-run-",jj,sep=""),".RData",sep=""))
   
 }
+
+###############################################################################
+# End of file
+###############################################################################

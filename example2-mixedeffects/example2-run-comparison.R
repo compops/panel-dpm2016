@@ -1,4 +1,13 @@
-setwd("~/projects/dpm-panel2015/src-draft1/example2-mixedeffects")
+###############################################################################
+# Script for replicating example 2 in 
+# "Bayesian inference for mixed effects models with heterogeneity"
+#
+# Script to run Gibbs sampling for a single data set
+#
+# (c) Johan Dahlin 2016 ( johan.dahlin (at) liu.se )
+###############################################################################
+
+#setwd("~/projects/dpm-panel2015/src-draft1/example2-mixedeffects")
 
 set.seed( 87655678 )
 library("mvtnorm")
@@ -108,9 +117,12 @@ lines(density(outFiniteSparse$alpha[nBurnIn:nIter],from=1.7,to=2.2),lwd=3,col=pl
 hist(outDPM$alpha[nBurnIn:nIter],main="",breaks=floor(sqrt(nIter)),freq=FALSE,xlab=expression(alpha),col=rgb(t(col2rgb(plotColors[3]))/256,alpha=0.25),border=NA, ylab="density",xlim=c(1.7,2.2))
 lines(density(outDPM$alpha[nBurnIn:nIter],from=1.7,to=2.2),lwd=3,col=plotColors[3])
 
-
 hist(outFiniteSparse$nOccupiedClusters[nBurnIn:nIter],breaks=floor(sqrt(nIter)),main="",freq=FALSE,xlab="no. occupied clusters",col=plotColors[2],border=plotColors[2],xlim=c(0,nMaxClusters), ylab="density")
 hist(outDPM$nOccupiedClusters[nBurnIn:nIter],breaks=floor(sqrt(nIter)),main="",freq=FALSE,xlab="no. occupied clusters",col=plotColors[3],border=plotColors[3],xlim=c(0,nMaxClusters), ylab="density")
 
 hist(outDPM$alphaSB[nBurnIn:nIter],main="",breaks=floor(sqrt(nIter)),freq=FALSE,xlab=expression(alpha[DP]),col=rgb(t(col2rgb(plotColors[3]))/256,alpha=0.25),border=NA, ylab="density",xlim=c(0,60))
 lines(density(outDPM$alphaSB[nBurnIn:nIter],from=0,to=60),lwd=3,col=plotColors[3])
+
+###############################################################################
+# End of file
+###############################################################################

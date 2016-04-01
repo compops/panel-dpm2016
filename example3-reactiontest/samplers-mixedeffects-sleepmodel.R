@@ -1,3 +1,12 @@
+###############################################################################
+# Script for replicating example 3 in 
+# "Bayesian inference for mixed effects models with heterogeneity"
+#
+# Subroutine for Gibbs sampling
+#
+# (c) Johan Dahlin 2016 ( johan.dahlin (at) liu.se )
+###############################################################################
+
 library("mvtnorm")
 
 ###############################################################################
@@ -558,3 +567,7 @@ gibbs_dpm <- function(y, xf, xr, nIter, nMaxClusters, prior, postGrid)  {
        betaInd=post_betaInd, beta=post_beta, Qinv=post_Qinv, alphaSB=post_alphaSB)  
   
 }
+
+###############################################################################
+# End of file
+###############################################################################

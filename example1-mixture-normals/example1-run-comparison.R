@@ -1,4 +1,11 @@
-setwd("~/storage/owncloud/projects-work/dpm-panel2015/src-draft1/example1-mixture-normals")
+###############################################################################
+# Script for replicating example 1 in 
+# "Bayesian inference for mixed effects models with heterogeneity"
+#
+# (c) Johan Dahlin 2016 ( johan.dahlin (at) liu.se )
+###############################################################################
+
+#setwd("~/storage/owncloud/projects-work/dpm-panel2015/src-draft1/example1-mixture-normals")
 
 set.seed( 87655678 )
 
@@ -70,18 +77,21 @@ outDPM          <- gibbs_dpm(y, nMCMC, nMaxClusters, prior, grid)
 layout(matrix(c(1,1,2,3), 2, 2, byrow = TRUE)) 
 par(mar=c(4,5,1,1))
 
-plot(grid, colMeans(outFiniteKnown$gridPost[nBurnIn:nMCMC,]), lwd=3, col=plotColors[1], type="l", bty="n", ylab="density", xlab="y", ylim=c(0,0.75),xlim=c(-3,4))
+plot(grid, colMeans(outFiniteKnown$gridPost[nBurnIn:nMCMC,]), lwd=3, col=plotColors[1], type="l", bty="n", ylab="density", xlab=expression(beta[i]^{s}), ylim=c(0,0.75),xlim=c(-3,4))
 lines(grid, colMeans(outFiniteSparse$gridPost[nBurnIn:nMCMC,]), lwd=3, col=plotColors[2])
 lines(grid, colMeans(outDPM$gridPost[nBurnIn:nMCMC,]), lwd=3, col=plotColors[3])
-legend("topright",c("M known","Sparseness prior","DP prior"),col=plotColors[1:3],lwd=2,box.col=NA)
 rug(y)
 
-hist(outFiniteSparse$nOccupiedClusters[nBurnIn:nMCMC], breaks=floor(sqrt(nMCMC-nBurnIn))/3, freq=FALSE, col=plotColors[2], xlab="no. clusters", ylab="density", border=NA, main="", xlim=c(0,20), ylim=c(0,1.0))
-abline(v=nClusters-0.25, lty="dotted")
-text(20,1.0,"sparseness prior",pos=2)
+hist(outFiniteSparse$nOccupiedClusters[nBurnIn:nMCMC], breaks=floor(sqrt(nMCMC-nBurnIn))/3, freq=FALSE, col=plotColors[2], xlab="no. occupied components", ylab="density", border=NA, main="", xlim=c(0,20), ylim=c(0,1.0))
+abline(v=nClusters-0.5, lty="dotted")
+text(20,1.0,"FMs",pos=2)
 
-hist(outDPM$nOccupiedClusters[nBurnIn:nMCMC], breaks=floor(sqrt(nMCMC-nBurnIn))/2, freq=FALSE, col=plotColors[3], xlab="no. clusters", ylab="density", border=NA, main="", xlim=c(0,20), ylim=c(0,0.4))
-abline(v=nClusters-0.25, lty="dotted")
-text(20,0.4,"DP prior",pos=2)
+hist(outDPM$nOccupiedClusters[nBurnIn:nMCMC], breaks=floor(sqrt(nMCMC-nBurnIn))/2, freq=FALSE, col=plotColors[3], xlab="no. occupied components", ylab="density", border=NA, main="", xlim=c(0,20), ylim=c(0,0.4))
+abline(v=nClusters-0.5, lty="dotted")
+text(20,0.4,"DPM model",pos=2)
 
 #dev.off()
+
+###############################################################################
+# End of file
+###############################################################################

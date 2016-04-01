@@ -1,6 +1,15 @@
-########################################################################################################
+###############################################################################
+# Subroutine for replicating example 1 in 
+# "Bayesian inference for mixed effects models with heterogeneity"
+#
+# Gibbs sampling for finite mixture model and DPM model
+#
+# (c) Johan Dahlin 2016 ( johan.dahlin (at) liu.se )
+###############################################################################
+
+###############################################################################
 # Gibbs sampling for finite mixture
-########################################################################################################
+###############################################################################
 
 gibbs_finitemixture <- function(y, nMCMC, nMaxClusters, prior, grid)  {
   
@@ -123,9 +132,9 @@ gibbs_finitemixture <- function(y, nMCMC, nMaxClusters, prior, grid)  {
   list(gridPost=gridPost, nOccupiedClusters=nOccupiedClusters)
 }
 
-########################################################################################################
+###############################################################################
 # Collapsed Gibbs sampling for DPM process
-########################################################################################################
+###############################################################################
 
 gibbs_dpm <- function(y, nMCMC, nMaxClusters, prior, grid)  {
   
@@ -279,3 +288,7 @@ gibbs_dpm <- function(y, nMCMC, nMaxClusters, prior, grid)  {
   }
   list(gridPost=gridPost, nOccupiedClusters=nOccupiedClusters, alpha=alpha)
 }
+
+###############################################################################
+# End of file
+###############################################################################
