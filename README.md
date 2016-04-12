@@ -2,7 +2,7 @@
 
 This code was downloaded from < https://github.com/compops/panel-dpm2016 > or from < http://liu.johandahlin.com/ > and contains the code used to produce the results in the technical report
 
-* J. Dahlin, R. Kohn and T. B. Schön, *Bayesian inference for mixed effects models with heterogeneity*. Technical report LiTH-ISY-R-3091, Department of Electrical Engineering, Linköping University. March 2016. 
+J. Dahlin, R. Kohn and T. B. Schön, **Bayesian inference for mixed effects models with heterogeneity**. Technical report LiTH-ISY-R-3091, Department of Electrical Engineering, Linköping University. March 2016. 
 
 The papers are available as a preprint from < http://www.johandahlin.com/publications-files/dpm-panel2016-techreport.pdf > or < http://liu.johandahlin.com/ >.
 
