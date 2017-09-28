@@ -4,11 +4,14 @@ This code was downloaded from < https://github.com/compops/panel-dpm2016 > and c
 
 J. Dahlin, R. Kohn and T. B. Schön, **Bayesian inference for mixed effects models with heterogeneity**. Technical report LiTH-ISY-R-3091, Department of Electrical Engineering, Linköping University. March 2016. 
 
-The papers are available as a preprint from < http://research.johandahlin.com/files/dpm-panel2016-techreport.pdf >.
+The report is available from < http://research.johandahlin.com/files/dpm-panel2016-techreport.pdf >.
 
 Requirements
 --------------
-The code is written and tested for R 3.2.3. To run the code, you need to have mvtnorm, lme4 and RColorBrewer installed, which amounts to executing the command "install.packages(c("mvtnorm","RColorBrewer","lme4"))". 
+The code is written and tested for R 3.2.3. To run the code, you need to have mvtnorm, lme4 and RColorBrewer installed, which amounts to executing the command 
+``` R
+install.packages(c("mvtnorm","RColorBrewer","lme4"))
+```
 
 Main script files
 --------------
@@ -18,7 +21,11 @@ Please, make sure that the working directory is the same as the directory in whi
 
 **example2-mixedeffects/example2-run-comparison.R** This script estimates the model in Section 4.2 for a specific N and T. It was used for verfying the code before running the simulation study. Hence, the settings can differ slightly from the ones indicated in the report. 
 
-**example2-mixedeffects/example2-run-gamma.R** This script recreates the simulation study presented in Section 4.2. It is run from the command line by executing "R CMD BATCH --no-save --no-restore '--args jj=XXX' example2-run-gamma.R" for XXX from 1 to 40 to get 40 independent runs. Please, make sure that the working directory set in the file is correct before executing the script. Also, make sure to run the data generating script (discussed below) before running this file.
+**example2-mixedeffects/example2-run-gamma.R** This script recreates the simulation study presented in Section 4.2. It is run from the command line by executing 
+```
+R CMD BATCH --no-save --no-restore '--args jj=XXX' example2-run-gamma.R
+```
+for XXX from 1 to 40 to get 40 independent runs. Please, make sure that the working directory set in the file is correct before executing the script. Also, make sure to run the data generating script (discussed below) before running this file.
 
 **example3-reactiontest/example3-reactiontest.R** This script replicats the results of Setion 4.3.
 
