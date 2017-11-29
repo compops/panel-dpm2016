@@ -4,7 +4,7 @@ This code was downloaded from < https://github.com/compops/panel-dpm2016 > and c
 
 J. Dahlin, R. Kohn and T. B. Schön, **Bayesian inference for mixed effects models with heterogeneity**. Technical report LiTH-ISY-R-3091, Department of Electrical Engineering, Linköping University. March 2016. 
 
-The report is available from < http://research.johandahlin.com/files/dpm-panel2016-techreport.pdf >.
+The report is available from < http://www.johandahlin.com/files/publications/dahlin-panel-dpm2016.pdf >.
 
 Requirements
 --------------
